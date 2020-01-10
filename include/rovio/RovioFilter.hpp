@@ -151,10 +151,10 @@ class RovioFilter:public LWF::FilterBase<ImuPrediction<FILTERSTATE>,
       ind = mtState::template getId<mtState::_fea>(i)+2;
       doubleRegister_.removeScalarByVar(init_.cov_(ind,ind));
       doubleRegister_.removeScalarByVar(init_.state_.dep(i).p_);
-      doubleRegister_.removeScalarByVar(init_.state_.CfP(i).nor_.q_.toImplementation().w());
-      doubleRegister_.removeScalarByVar(init_.state_.CfP(i).nor_.q_.toImplementation().x());
-      doubleRegister_.removeScalarByVar(init_.state_.CfP(i).nor_.q_.toImplementation().y());
-      doubleRegister_.removeScalarByVar(init_.state_.CfP(i).nor_.q_.toImplementation().z());
+      doubleRegister_.removeScalarByVar(init_.state_.CfP(i).nor_.q_.w());
+      doubleRegister_.removeScalarByVar(init_.state_.CfP(i).nor_.q_.x());
+      doubleRegister_.removeScalarByVar(init_.state_.CfP(i).nor_.q_.y());
+      doubleRegister_.removeScalarByVar(init_.state_.CfP(i).nor_.q_.z());
       std::get<0>(mUpdates_).intRegister_.registerScalar("statLocalQualityRange",init_.fsm_.features_[i].mpStatistics_->localQualityRange_);
       std::get<0>(mUpdates_).intRegister_.registerScalar("statLocalVisibilityRange",init_.fsm_.features_[i].mpStatistics_->localVisibilityRange_);
       std::get<0>(mUpdates_).intRegister_.registerScalar("statMinGlobalQualityRange",init_.fsm_.features_[i].mpStatistics_->minGlobalQualityRange_);
