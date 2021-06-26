@@ -110,6 +110,8 @@ int main(int argc, char** argv){
   nh_private.param("record_markers", rovioNode.forceMarkersPublishing_, rovioNode.forceMarkersPublishing_);
   nh_private.param("record_patch", rovioNode.forcePatchPublishing_, rovioNode.forcePatchPublishing_);
   nh_private.param("reset_trigger", resetTrigger, resetTrigger);
+  int numcameras = 0;
+  nh_private.param("numcameras", numcameras, numcameras);
 
   std::cout << "Recording";
   if(rovioNode.forceOdometryPublishing_) std::cout << ", odometry";
@@ -172,7 +174,8 @@ int main(int argc, char** argv){
 
   topics.push_back(std::string(imu_topic_name));
   topics.push_back(std::string(cam0_topic_name));
-  topics.push_back(std::string(cam1_topic_name));
+  if (numcameras > 1)
+    topics.push_back(std::string(cam1_topic_name));
   rosbag::View view(bagIn, rosbag::TopicQuery(topics));
 
 

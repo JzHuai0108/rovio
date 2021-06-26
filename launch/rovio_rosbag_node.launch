@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <launch>
   <arg name="bagname" default="/home/michael/datasets/euroc/01_easy/dataset.bag" />
-  <node pkg="rovio" type="rovio_rosbag_loader" name="rovio" output="screen">
+  <arg name="filename_out" default="" />
+  <arg name="numcameras" default="2" />
+  <node pkg="rovio" type="rovio_rosbag_loader" name="rovio" output="screen" required="true">
   <param name="filter_config" value="$(find rovio)/cfg/rovio.info"/>
   <param name="camera0_config" value="$(find rovio)/cfg/euroc_cam0.yaml"/>
   <param name="camera1_config" value="$(find rovio)/cfg/euroc_cam1.yaml"/>
   <param name="rosbag_filename" value="$(arg bagname)"/>
+  <param name="numcameras" value="$(arg numcameras)"/>
+  <param name="record_odometry" value="true"/>
+  <param name="record_imu_bias" value="true"/>
+  <param name="record_extrinsics" value="true"/>
+  <param name="filename_out" value="$(arg filename_out)"/>
   <param name="imu_topic_name" value="/imu0"/>
   <param name="cam0_topic_name" value="/cam0/image_raw"/>
   <param name="cam1_topic_name" value="/cam1/image_raw"/>
