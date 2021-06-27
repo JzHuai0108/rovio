@@ -3,12 +3,14 @@
   <arg name="bagname" default="/home/michael/datasets/euroc/01_easy/dataset.bag" />
   <arg name="filename_out" default="" />
   <arg name="numcameras" default="2" />
+  <arg name="skip_start_seconds" default="0.0"/>
   <node pkg="rovio" type="rovio_rosbag_loader" name="rovio" output="screen" required="true">
   <param name="filter_config" value="$(find rovio)/cfg/rovio.info"/>
   <param name="camera0_config" value="$(find rovio)/cfg/euroc_cam0.yaml"/>
   <param name="camera1_config" value="$(find rovio)/cfg/euroc_cam1.yaml"/>
   <param name="rosbag_filename" value="$(arg bagname)"/>
   <param name="numcameras" value="$(arg numcameras)"/>
+  <param name="skip_start_seconds" value="$(arg skip_start_seconds)"/>
   <param name="record_odometry" value="true"/>
   <param name="record_imu_bias" value="true"/>
   <param name="record_extrinsics" value="true"/>

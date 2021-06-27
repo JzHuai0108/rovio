@@ -112,6 +112,8 @@ int main(int argc, char** argv){
   nh_private.param("reset_trigger", resetTrigger, resetTrigger);
   int numcameras = 0;
   nh_private.param("numcameras", numcameras, numcameras);
+  double skipStartSeconds = 0;
+  nh_private.param("skip_start_seconds", skipStartSeconds, skipStartSeconds);
 
   std::cout << "Recording";
   if(rovioNode.forceOdometryPublishing_) std::cout << ", odometry";
@@ -181,7 +183,17 @@ int main(int argc, char** argv){
 
   bool isTriggerInitialized = false;
   double lastTriggerTime = 0.0;
+  ros::Duration skipStart(skipStartSeconds);
+  ros::Time bagStartTime(0.0);
   for(rosbag::View::iterator it = view.begin();it != view.end() && ros::ok();it++){
+    ros::Time time = it->getTime();
+    if (bagStartTime == ros::Time(0.0)) {
+      bagStartTime = time;
+    }
+    ros::Duration elapsed = time - bagStartTime;
+    if (elapsed < skipStart)
+      continue;
+
     if(it->getTopic() == imu_topic_name){
       sensor_msgs::Imu::ConstPtr imuMsg = it->instantiate<sensor_msgs::Imu>();
       if (imuMsg != NULL) rovioNode.imuCallback(imuMsg);
